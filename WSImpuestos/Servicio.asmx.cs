@@ -89,6 +89,29 @@ namespace WSImpuestos
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public string getImpuesto_Aut2()
+        {
+            DataTable dt_impuestos = new DataTable();//DataTable();
+            dt_impuestos = this.Impuesto_Aut.GetData();
+
+            Dictionary<string, object> row;
+            var rows = new List<Dictionary<string, object>>();
+            foreach (DataRow dr in dt_impuestos.Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in dt_impuestos.Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+
+            return JsonConvert.SerializeObject(rows);
+        }
+
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string getImpuesto_Inm2()
         {
             DataTable dt_impuestos = new DataTable();//DataTable();
@@ -97,7 +120,6 @@ namespace WSImpuestos
             dt_impuestos = this.Impuesto_Inm.GetData();
 
             Dictionary<string, object> row;
-            //List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
             var rows = new List<Dictionary<string, object>>();
             foreach (DataRow dr in dt_impuestos.Rows)
             {
