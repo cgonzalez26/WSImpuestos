@@ -79,6 +79,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dsDatos.xsd</DependentUpon>
     </Compile>
+    <Compile Include="dsDenuncias.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsDenuncias.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="dsEstablecimientos.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsEstablecimientos.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Servicio.asmx.cs">
       <DependentUpon>Servicio.asmx</DependentUpon>
@@ -95,6 +105,28 @@
     </None>
     <Content Include="dsDatos.xss">
       <DependentUpon>dsDatos.xsd</DependentUpon>
+    </Content>
+    <Content Include="dsDenuncias.xsc">
+      <DependentUpon>dsDenuncias.xsd</DependentUpon>
+    </Content>
+    <None Include="dsDenuncias.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsDenuncias.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="dsDenuncias.xss">
+      <DependentUpon>dsDenuncias.xsd</DependentUpon>
+    </Content>
+    <Content Include="dsEstablecimientos.xsc">
+      <DependentUpon>dsEstablecimientos.xsd</DependentUpon>
+    </Content>
+    <None Include="dsEstablecimientos.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsEstablecimientos.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="dsEstablecimientos.xss">
+      <DependentUpon>dsEstablecimientos.xsd</DependentUpon>
     </Content>
     <None Include="packages.config" />
     <None Include="Web.Debug.config">

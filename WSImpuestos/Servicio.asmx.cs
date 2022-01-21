@@ -8,6 +8,10 @@ using WSImpuestos.dsDatosTableAdapters;
 using System.Web.Script.Services;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
+using WSImpuestos.dsDenunciasTableAdapters;
+using WSImpuestos.dsEstablecimientosTableAdapters;
+using System.Configuration;
+using System.Data.SqlClient;
 
 namespace WSImpuestos
 {
@@ -34,12 +38,15 @@ namespace WSImpuestos
         Impuesto_AutTableAdapter Impuesto_Aut = new Impuesto_AutTableAdapter();
         Impuesto_InmTableAdapter Impuesto_Inm = new Impuesto_InmTableAdapter();
         Impuesto_TSGTableAdapter Impuesto_TSG = new Impuesto_TSGTableAdapter();
+        EstablecimientosTableAdapter Establecimiento = new EstablecimientosTableAdapter();
         dsDatos dsDatos = new dsDatos();
+        dsDenuncias dsDenuncias = new dsDenuncias();
+        dsEstablecimientos dsEstablecimientos = new dsEstablecimientos();
 
         //IMPUESTOS AUTOMOTOR
         [WebMethod]
-        //[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        //[ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
         public DataSet getImpuestos_Aut()
         {
             //DataSet ds;
@@ -173,12 +180,21 @@ namespace WSImpuestos
         //DENUNCIA
 
         [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public string getDenuncias2()
+        {
+            this.Denuncia.Fill(this.dsDenuncias.Denuncia);
+
+            return JsonConvert.SerializeObject(dsDenuncias, Formatting.Indented);
+        }
+
+        [WebMethod]
         public DataSet getDenuncias()
         {
             //DataSet ds;
-            this.Denuncia.Fill(this.dsDatos.Denuncia);
+            this.Denuncia.Fill(this.dsDenuncias.Denuncia);
 
-            return dsDatos;
+            return dsDenuncias;
         }
 
         [WebMethod]
@@ -230,6 +246,37 @@ namespace WSImpuestos
             {
                 result = "Error al eliminar el registro " + ex.Message.ToString();
                 return result;
+            }
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public string getEstablecimientos()
+        {
+            //DataSet ds;
+            this.Establecimiento.Fill(this.dsEstablecimientos.Establecimientos);
+
+            return JsonConvert.SerializeObject(dsEstablecimientos, Formatting.Indented);
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public string authenticate(string UsuarioNombre, string Password) {
+
+            string cs = ConfigurationManager.ConnectionStrings["OranDBConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM Usuarios WHERE UsuarioNombre = '" + UsuarioNombre+"'", con);
+                cmd.ExecuteNonQuery();
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataSet dsUsuario = new DataSet();
+                da.Fill(dsUsuario);
+                con.Close();
+
+                return JsonConvert.SerializeObject(dsUsuario, Formatting.Indented);
+
             }
         }
     }
